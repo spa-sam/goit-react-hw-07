@@ -1,10 +1,13 @@
 .contactListContainer {
   width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .contactList {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: start;
   gap: 10px;
 }

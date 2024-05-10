@@ -14,7 +14,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="container">
       <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
