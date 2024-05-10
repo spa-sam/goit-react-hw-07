@@ -1,29 +1,24 @@
-import { useSelector } from "react-redux";
-import ContactForm from "../ContactForm/ContactForm";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchContacts } from "../../redux/contactsOps";
 import ContactList from "../ContactList/ContactList";
+import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
-import { selectContacts, selectNameFilter } from "../../redux/selectors";
-import "./App.css";
-import ClearStorageButton from "../ClearStorageButton/ClearStorageButton";
+import "./App.module.css";
 
 function App() {
-  const contactList = useSelector(selectContacts);
-  const searchQuery = useSelector(selectNameFilter);
+  const dispatch = useDispatch();
 
-  const filteredContacts =
-    searchQuery.trim() === ""
-      ? contactList
-      : contactList.filter((contact) =>
-          contact.name.toLowerCase().includes(searchQuery.toLowerCase().trim())
-        );
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
-      <ContactList contacts={filteredContacts} />
-      <ClearStorageButton />
+      <ContactList />
     </div>
   );
 }
