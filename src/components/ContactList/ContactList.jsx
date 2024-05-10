@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
 import { fetchContacts } from "../../redux/contactsOps";
@@ -16,21 +17,25 @@ function ContactList() {
   const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    if (filteredContacts.length === 0) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, filteredContacts]);
 
   return (
-    <div className={css.contactList}>
-      {loading ? (
+    <div className={css.contactListContainer}>
+      {loading && filteredContacts.length === 0 ? (
         <p>Loading contacts...</p>
       ) : error ? (
         <p>Error: {error}</p>
-      ) : filteredContacts.length > 0 ? (
-        filteredContacts.map((contact) => (
-          <Contact key={contact.id} contact={contact} />
-        ))
       ) : (
-        <p>No contacts found.</p>
+        <TransitionGroup component="div" className={css.contactList}>
+          {filteredContacts.map((contact) => (
+            <CSSTransition key={contact.id} timeout={300} classNames={css}>
+              <Contact contact={contact} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       )}
     </div>
   );
