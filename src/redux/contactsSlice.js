@@ -1,10 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-import contacts from "../contacts.json";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "./../api";
+
+export const fetchContacts = createAsyncThunk(
+  "contacts/fetchContacts",
+  async () => {
+    const response = await api.get("/contacts");
+    return response.data;
+  }
+);
 
 const contactsSlice = createSlice({
   name: "contacts",
-  initialState: {
-    items: contacts,
+  initialState: { items: [] },
+  extraReducers: (builder) => {
+    builder.addCase(fetchContacts.fulfilled, (state, action) => {
+      state.items = action.payload;
+    });
   },
   reducers: {
     addContact: (state, action) => {
