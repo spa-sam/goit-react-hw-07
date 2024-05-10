@@ -1,14 +1,15 @@
 .contactListContainer {
   width: 100%;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   margin: 0 auto;
+  /* border: 1px solid #ccc; */
 }
 
 .contactList {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   gap: 10px;
 }
 
